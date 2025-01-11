@@ -56,7 +56,7 @@ const Footer = () => {
             </div>
             <ul className="flex flex-col gap-3 justify-center">
               <li>
-                <Link href="/info">info</Link>
+                <Link href="/blog">blog</Link>
               </li>
               <li>
                 <Link href="/product">product</Link>

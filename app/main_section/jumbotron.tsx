@@ -31,7 +31,7 @@ const Jumbotron = () => {
           <br />
           made to be your story
         </h1>
-        <p className="w-[90%] md:w-[40%] lg:w-[80%]  text-sm mx-auto 2xl:text-lg 2xl:w-[30%]">
+        <p className="w-[90%] md:w-[40%] lg:w-[80%]  text-sm lg:text-lg mx-auto 2xl:text-lg 2xl:w-[30%]">
           We will be part of your story, every moment and process our narrators
           are ready to be involved.
           <span className="hidden lg:block">

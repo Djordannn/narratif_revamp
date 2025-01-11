@@ -41,6 +41,8 @@ const CustomJersey = () => {
         <Image
           src={imgCustom}
           alt="img"
+          width={1000}
+          height={300}
           className="w-[100%] h-[170px] md:h-[300px] object-cover object-top"
         />
       </div>

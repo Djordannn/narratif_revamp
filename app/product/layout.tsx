@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import imgBanner from "../../public/image/photo.jpeg";
+import imgBanner from "../../public/image/imgBanner.jpg";
 import Sidebar from "./sidebar";
 import {
   DropdownMenu,
