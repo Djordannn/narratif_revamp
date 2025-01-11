@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/app/main_section/navbar";
 import Footer from "@/app/main_section/footer";
 import WhatsApp from "./main_section/whatsAppPop";
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,7 +22,7 @@ export default function RootLayout({
           content="width=device-width, initial-scale=1.0"
         ></meta>
       </head>
-      <body className={`${poppins.variable} antialiased transition-all`}>
+      <body className={`font-poppins antialiased transition-all`}>
         <Navbar />
         {children}
         <WhatsApp />

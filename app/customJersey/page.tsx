@@ -1,60 +1,40 @@
-import Image from "next/image";
-import imgCustom from "/public/image/ladaPapat.jpg";
-import img1 from "../../public/image/vintageRetor.png";
-import img2 from "../../public/image/boxing.png";
-import img3 from "../../public/image/uns.png";
-import img4 from "../../public/image/undip.png";
-import img5 from "../../public/image/tennis.png";
+"use client";
 
-const data = [
-  {
-    title: "name",
-    price: 99000,
-    imgUrl: img1,
-  },
-  {
-    title: "name",
-    price: 99000,
-    imgUrl: img2,
-  },
-  {
-    title: "name",
-    price: 99000,
-    imgUrl: img3,
-  },
-  {
-    title: "name",
-    price: 99000,
-    imgUrl: img4,
-  },
-  {
-    title: "name",
-    price: 99000,
-    imgUrl: img5,
-  },
-];
+import Image from "next/image";
+import imgCustom from "../../public/image/ladaPapat.jpg";
+import React, { useEffect, useState } from "react";
+import { TypeImgAsset } from "@/types/typeImage";
+import contentfulClient from "@/lib/contentfulClient";
+import { TypeCustomSkeleton } from "@/types/typeCustom";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Entry } from "contentful";
 
 const CustomJersey = () => {
-  const newData = data.map((value, index) => {
-    return (
-      <div key={index}>
-        <Image
-          src={value.imgUrl}
-          alt="imgCard2.jpg"
-          className="w-[100%] h-[230px] md:h-[300px] bg-[#eeee] object-contain pb-7 lg:h-[250px]  2xl:h-[300px]"
-        />
-        <div className="mt-2">
-          <h2 className="text-lg md:text-xl font-thin">{value.title}</h2>
-          <p className="text-lg md:text-xl">
-            {value.price.toLocaleString("id", {
-              style: "currency",
-              currency: "IDR",
-            })}
-          </p>
-        </div>
-      </div>
-    );
-  });
+  const [data, setData] = useState<Entry<TypeCustomSkeleton>[]>([]);
+
+  const fetchData = async () => {
+    try {
+      const res = await contentfulClient.getEntries<TypeCustomSkeleton>({
+        content_type: "custom",
+      });
+      console.log(res.items);
+
+      setData(res.items);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="pb-14 mx-[5%]">
       <div>
@@ -77,7 +57,37 @@ const CustomJersey = () => {
         </div>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-        {newData}
+        {data.map((value, index) => (
+          <Card key={index} className="border-none shadow-none">
+            <CardHeader className="p-0">
+              <Image
+                src={`https:${
+                  (value.fields.img as TypeImgAsset)?.fields.file.url
+                }`}
+                width={1000}
+                height={300}
+                quality={100}
+                alt="img"
+                className="w-[100%] h-[200px] object-cover bg-[#eeee] md:h-[250px] lg:h-[250px] xl:h-[300px] 2xl:h-[300px]"
+              />
+            </CardHeader>
+            <CardContent className="mt-4 p-0">
+              <CardTitle className="xl:text-xl font-medium">
+                {value.fields.title && typeof value.fields.title === "string"
+                  ? value.fields.title
+                  : "No Title"}
+              </CardTitle>
+              <CardDescription className="xl:text-xl font-[300]]">
+                {typeof value.fields.price === "object" && value.fields.price.en
+                  ? parseInt(value.fields.price.en).toLocaleString("id", {
+                      style: "currency",
+                      currency: "IDR",
+                    })
+                  : "Harga tidak tersedia"}
+              </CardDescription>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import ImgJersey from "../../public/image/jersey.jpg";
 
 const data = [
   {
-    title: "futsal",
+    title: "jersey",
     imgUrl: ImgFutsal,
   },
   {
@@ -27,7 +27,7 @@ export default function Cardshirt() {
           <Image
             src={value.imgUrl}
             alt="img-shirt"
-            className="w-[100%] h-[300px] lg:h-[300px] 2xl:h-[400px] object-cover object-top"
+            className="w-[100%] h-[300px] md:h-[250px] lg:h-[300px] 2xl:h-[400px] object-cover object-top"
           />
           <div className="absolute bottom-4 left-5">
             <h3 className="text-2xl text-white tracking-tight">

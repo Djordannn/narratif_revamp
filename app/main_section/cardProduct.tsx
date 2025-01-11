@@ -1,13 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import img1 from "../../public/image/boxing.png";
-import img2 from "../../public/image/boxing2.png";
-import img3 from "../../public/image/tennis.png";
-import img4 from "../../public/image/boxingWhite.png";
-import img5 from "../../public/image/black.png";
+import { TypePopularProductSkeleton } from "@/types/typePopularPrdct";
+import { TypeImgAsset } from "@/types/typeImage";
+import contentfulClient from "@/lib/contentfulClient";
+import { Entry } from "contentful";
 import {
   Carousel,
   CarouselContent,
@@ -16,57 +15,25 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-const dataProduct = [
-  {
-    name: "T-shirt white",
-    price: 99000,
-    imgUrl: img1,
-  },
-  {
-    name: "T-shirt green",
-    price: 99000,
-    imgUrl: img2,
-  },
-  {
-    name: "T-shirt red",
-    price: 99000,
-    imgUrl: img3,
-  },
-  {
-    name: "T-shirt blue",
-    price: 99000,
-    imgUrl: img4,
-  },
-  {
-    name: "T-shirt black",
-    price: 99000,
-    imgUrl: img5,
-  },
-];
-
 const CardProduct = () => {
-  const newDataProduct = dataProduct.map((value, index) => {
-    return (
-      <div key={index}>
-        <div className="bg-[#eeee]">
-          <Image
-            src={value.imgUrl}
-            alt="img"
-            className="h-[200px] sm:h-[250px] object-contain pb-9"
-          />
-        </div>
-        <div className="mt-2">
-          <h3>{value.name}</h3>
-          <p>
-            {value.price.toLocaleString("id", {
-              style: "currency",
-              currency: "IDR",
-            })}
-          </p>
-        </div>
-      </div>
-    );
-  });
+  const [data, setData] = useState<Entry<TypePopularProductSkeleton>[]>([]);
+
+  const fetchData = async () => {
+    try {
+      const res = await contentfulClient.getEntries<TypePopularProductSkeleton>(
+        {
+          content_type: "popularProduct",
+        }
+      );
+      setData(res.items);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div id="product" className="py-8 md:py-24 mb-[4rem] mx-[5%]">
@@ -78,30 +45,78 @@ const CardProduct = () => {
         </p>
       </div>
       <div className="grid mt-12 grid-cols-2 gap-4 md:hidden">
-        {newDataProduct}
+        {data.map((value, index) => (
+          <div
+            key={index}
+            className="md:basis-1/3 lg:basis-[29%] 2xl:basis-[25%] flex-shrink-0"
+          >
+            <div className="bg-[#eeee]">
+              <Image
+                src={`https:${
+                  (value.fields.image as TypeImgAsset)?.fields.file.url
+                }`}
+                width={1000}
+                height={300}
+                quality={100}
+                alt="img"
+                className="w-[100%] h-[200px] object-cover bg-[#eeee]"
+              />
+            </div>
+            <div className="mt-2">
+              <h3 className="text-md font-medium">
+                {" "}
+                {value.fields.title && typeof value.fields.title === "string"
+                  ? value.fields.title
+                  : "No Title"}
+              </h3>
+              <p className="text-sm">
+                {typeof value.fields.price === "object" && value.fields.price.en
+                  ? parseInt(value.fields.price.en).toLocaleString("id", {
+                      style: "currency",
+                      currency: "IDR",
+                    })
+                  : "Harga tidak tersedia"}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
       <div className="hidden md:block">
         <Carousel className="py-12">
           <CarouselContent className="flex w-full gap-2">
-            {dataProduct.map((value, index) => (
+            {data.map((value, index) => (
               <CarouselItem
                 key={index}
                 className="md:basis-1/3 lg:basis-[29%] 2xl:basis-[25%] flex-shrink-0"
               >
                 <div className="bg-[#eeee]">
                   <Image
-                    src={value.imgUrl}
+                    src={`https:${
+                      (value.fields.image as TypeImgAsset)?.fields.file.url
+                    }`}
+                    width={1000}
+                    height={300}
+                    quality={100}
                     alt="img"
-                    className="w-full h-[320px] 2xl:h-[350px] object-contain pb-10"
+                    className="w-[100%] h-[200px] object-cover md:h-[200px] bg-[#eeee] lg:h-[220px] xl:h-[270px] 2xl:h-[300px]"
                   />
                 </div>
                 <div className="mt-2">
-                  <h3 className="text-lg">{value.name}</h3>
+                  <h3 className="text-lg font-medium">
+                    {" "}
+                    {value.fields.title &&
+                    typeof value.fields.title === "string"
+                      ? value.fields.title
+                      : "No Title"}
+                  </h3>
                   <p className="text-xl">
-                    {value.price.toLocaleString("id", {
-                      style: "currency",
-                      currency: "IDR",
-                    })}
+                    {typeof value.fields.price === "object" &&
+                    value.fields.price.en
+                      ? parseInt(value.fields.price.en).toLocaleString("id", {
+                          style: "currency",
+                          currency: "IDR",
+                        })
+                      : "Harga tidak tersedia"}
                   </p>
                 </div>
               </CarouselItem>
