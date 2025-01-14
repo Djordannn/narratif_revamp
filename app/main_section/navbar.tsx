@@ -84,8 +84,8 @@ export default function Navbar() {
                         </Link>
                       </li>
                       <li>
-                        <Link href="/blog" className="hover:opacity-50">
-                          blog
+                        <Link href="/info" className="hover:opacity-50">
+                          info
                         </Link>
                       </li>
                       <li>
