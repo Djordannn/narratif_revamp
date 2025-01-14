@@ -70,12 +70,10 @@ const CardProduct = () => {
                   : "No Title"}
               </h3>
               <p className="text-sm">
-                {typeof value.fields.price === "object" && value.fields.price.en
-                  ? parseInt(value.fields.price.en).toLocaleString("id", {
-                      style: "currency",
-                      currency: "IDR",
-                    })
-                  : "Harga tidak tersedia"}
+                {value.fields.price.toLocaleString("id", {
+                  style: "currency",
+                  currency: "IDR",
+                })}
               </p>
             </div>
           </div>
@@ -110,13 +108,10 @@ const CardProduct = () => {
                       : "No Title"}
                   </h3>
                   <p className="text-xl">
-                    {typeof value.fields.price === "object" &&
-                    value.fields.price.en
-                      ? parseInt(value.fields.price.en).toLocaleString("id", {
-                          style: "currency",
-                          currency: "IDR",
-                        })
-                      : "Harga tidak tersedia"}
+                    {value.fields.price.toLocaleString("id", {
+                      style: "currency",
+                      currency: "IDR",
+                    })}
                   </p>
                 </div>
               </CarouselItem>

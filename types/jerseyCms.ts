@@ -8,9 +8,8 @@ import type {
 
 export interface TypeJerseyFields {
   title: EntryFieldTypes.Symbol;
-  price: EntryFieldTypes.Symbol;
-  category: EntryFieldTypes.Symbol;
   image: EntryFieldTypes.AssetLink;
+  price: EntryFieldTypes.Integer;
 }
 
 export type TypeJerseySkeleton = EntrySkeletonType<TypeJerseyFields, "jersey">;

@@ -55,13 +55,11 @@ const TShirt = () => {
                   ? value.fields.title
                   : "No Title"}
               </CardTitle>
-              <CardDescription className="xl:text-xl font-[300]]">
-                {typeof value.fields.price === "object" && value.fields.price.en
-                  ? parseInt(value.fields.price.en).toLocaleString("id", {
-                      style: "currency",
-                      currency: "IDR",
-                    })
-                  : "Harga tidak tersedia"}
+              <CardDescription className="xl:text-lg font-[300]]">
+                {value.fields.priceInt.toLocaleString("id", {
+                  style: "currency",
+                  currency: "IDR",
+                })}
               </CardDescription>
             </CardContent>
           </Card>

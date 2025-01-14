@@ -8,8 +8,8 @@ import type {
 
 export interface TypeCustomFields {
   title: EntryFieldTypes.Symbol;
-  price: EntryFieldTypes.Symbol;
   img: EntryFieldTypes.AssetLink;
+  price: EntryFieldTypes.Integer;
 }
 
 export type TypeCustomSkeleton = EntrySkeletonType<TypeCustomFields, "custom">;

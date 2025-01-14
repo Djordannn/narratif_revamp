@@ -8,8 +8,8 @@ import type {
 
 export interface TypePopularProductFields {
   title: EntryFieldTypes.Symbol;
-  price: EntryFieldTypes.Symbol;
   image: EntryFieldTypes.AssetLink;
+  price: EntryFieldTypes.Integer;
 }
 
 export type TypePopularProductSkeleton = EntrySkeletonType<
